@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import Button from "./common/Button";
-import { useDispatch } from "react-redux";
-import { addLetter } from "redux/modules/letters";
+import { useDispatch, useSelector } from "react-redux";
+import { addLetter } from "redux/modules/lettersSlice";
 
 function AddForm() {
-  // const { setLetters } = useContext(LetterContext);
+  const letters = useSelector((state) => state.letters);
   const dispatch = useDispatch();
   const [nickname, setNickname] = useState("");
   const [comment, setComment] = useState("");
@@ -30,6 +30,7 @@ function AddForm() {
     setNickname("");
     setComment("");
   };
+  console.log(letters);
 
   return (
     <Form onSubmit={onAddLetter}>

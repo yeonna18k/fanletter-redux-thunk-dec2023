@@ -1,29 +1,37 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "pages/Home";
 import Detail from "pages/Detail";
-import Signup from "pages/Signup";
+import Signin from "pages/Signin";
 import Profile from "Components/Profile";
-import LogedRoute from "../LogedRoute";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function Router() {
-  const login = true;
+  const auth = useSelector((state) => state.auth.accessToken);
+  useEffect(() => {
+    if (auth == null) {
+      <Navigate to="/login"></Navigate>;
+    }
+  }, []);
+  console.log(auth);
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<LogedRoute component={<Home />} authenticated={login} />}
-        />
-        <Route
-          path="/detail/:id"
-          element={<LogedRoute component={<Detail />} authenticated={login} />}
-        />
-        <Route
-          path="/detail/:id"
-          element={<LogedRoute component={<Profile />} authenticated={login} />}
-        />
-        <Route path="/login" element={<Signup />} />
-        <Route path="*" element={<Navigate replace to="/" />} />{" "}
+        {auth == null ? (
+          <>
+            <Route path="/login" element={<Signin />} />
+            <Route path="*" element={<Navigate replace to="/login" />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/profile" element={<Profile />} />
+
+            <Route path="*" element={<Navigate replace to="/" />} />
+          </>
+        )}
+
         {/* 홈 화면으로 강제로 리다이렉팅 */}
       </Routes>
     </BrowserRouter>

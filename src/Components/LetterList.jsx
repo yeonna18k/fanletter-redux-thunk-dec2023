@@ -4,13 +4,12 @@ import LetterCard from "./LetterCard";
 import { useSelector } from "react-redux";
 
 function LetterList() {
-  // const { activeMember } = useContext(MemberContext);
-  // const { letters } = useContext(LetterContext);
   const activeMember = useSelector((state) => state.member);
   const letters = useSelector((state) => state.letters);
   const filteredLetters = letters.filter(
     (letter) => letter.writedTo === activeMember
   );
+  console.log(filteredLetters);
   return (
     <ListWrapper>
       {filteredLetters.length === 0 ? (
@@ -32,9 +31,6 @@ const ListWrapper = styled.ul`
   gap: 20px;
   width: 500px;
   padding: 12px;
-  & p {
-    text-align: center;
-  }
 `;
 
 export default LetterList;

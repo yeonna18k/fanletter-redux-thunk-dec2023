@@ -50,8 +50,8 @@ const NicknameAndDate = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
-  & p {
-    text-align: start;
+  & time {
+    font-size: 12px;
   }
 `;
 const Content = styled.p`

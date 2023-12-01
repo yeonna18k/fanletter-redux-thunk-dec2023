@@ -1,16 +1,18 @@
 import React from "react";
 import Tabs from "./Tabs";
+import NavBar from "./NavBar";
 import styled from "styled-components";
+import { Navigate } from "react-router-dom";
 
 function Header() {
   return (
     <Container>
+      <NavBar />
       <Title>RedVelvet</Title>
       <Tabs />
     </Container>
   );
 }
-
 const Container = styled.section`
   width: 100%;
   height: 300px;

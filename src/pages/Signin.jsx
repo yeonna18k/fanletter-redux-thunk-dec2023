@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Login from "Components/Login";
 
-function Signup() {
+function Signin() {
   return (
     <div>
       <Login />
@@ -9,4 +9,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Signin;

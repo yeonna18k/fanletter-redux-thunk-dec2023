@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { setMember } from "redux/modules/member";
+import { setMember } from "redux/modules/memberSlice";
 
 function Tabs() {
   // const { activeMember, setActiveMember } = useContext(MemberContext);
@@ -13,7 +13,6 @@ function Tabs() {
     // setActiveMember(event.target.textContent);
     dispatch(setMember(event.target.textContent));
   };
-
   return (
     <TabsWrapper onClick={onActiveMember}>
       <Tab $activeMember={activeMember}>Irene</Tab>

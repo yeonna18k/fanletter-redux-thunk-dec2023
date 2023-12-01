@@ -5,7 +5,7 @@ import Avatar from "Components/common/Avatar";
 import { getFormattedDate } from "util/date";
 import Button from "Components/common/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { editLetter, deleteLetter } from "redux/modules/letters";
+import { editLetter, deleteLetter } from "redux/modules/lettersSlice";
 
 function Detail() {
   const dispatch = useDispatch();
@@ -17,20 +17,13 @@ function Detail() {
   const { avatar, nickname, createdAt, writedTo, content } = letters.find(
     (letter) => letter.id === id
   );
+
   const onEditDone = () => {
     if (!editingText) return alert("There are no modifications");
     dispatch(editLetter({ id, editingText }));
-    // const newLetters = letters.map((letter) => {
-    //   if (letter.id === id) {
-    //     return { ...letter, content: editingText };
-    //   }
-    //   return letter;
-    // });
-    // setLetters(newLetters);
     setIsEditing(false);
     SetEditingText("");
   };
-
   const onDeleteBtn = () => {
     const answer = window.confirm("Are you sure want to delete?");
     if (!answer) return;
