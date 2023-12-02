@@ -17,12 +17,13 @@ function AddForm() {
     if (!nickname || !comment) return alert("Put your nickname and comment");
 
     const newLetter = {
-      createdAt: new Date(),
-      nickname: nickname,
-      avatar: null,
-      content: comment,
-      writedTo: member,
       id: uuid(),
+      nickname: nickname,
+      content: comment,
+      avatar: null,
+      writedTo: member,
+      createdAt: new Date(),
+      userId: window.localStorage.getItem("userId"),
     };
 
     // setLetters((prev) => [newLetter, ...prev]);
@@ -36,12 +37,13 @@ function AddForm() {
     <Form onSubmit={onAddLetter}>
       <SelectWrapper>
         <label>Nickname</label>
-        <input
+        <span>{window.localStorage.getItem("nickname")}</span>
+        {/* <input
           value={nickname}
           onChange={(event) => setNickname(event.target.value)}
           placeholder="Up to 20 characters"
           maxLength={20}
-        />
+        /> */}
       </SelectWrapper>
       <SelectWrapper>
         <label>Comment</label>

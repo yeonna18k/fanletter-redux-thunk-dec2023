@@ -2,29 +2,84 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin } from "redux/modules/authSlice";
+import {
+  setAvatar,
+  setLogin,
+  setNick,
+  setUserId,
+} from "redux/modules/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import api from "../axios/api";
 
 function Login() {
   const navigate = useNavigate();
   // 로그인 <-> 회원가입 토글 state
   const [isLogin, setIsLogin] = useState(true);
 
-  const auth = useSelector((state) => state.auth.accessToken);
-  console.log(auth);
+  // const auth = useSelector((state) => state.auth.accessToken);
+  // // console.log(auth);
+
   // id, pw, nickname input state 변경
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [nickname, setNickname] = useState("");
+
   const dispatch = useDispatch();
 
-  const onButtonClickHandler = (e) => {
+  useEffect(() => {
+    dispatch(setLogin(window.localStorage.getItem("accessToken")));
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      const { data } = await api.post("/login", {
+        id: id,
+        password: pw,
+      });
+      window.localStorage.setItem("accessToken", data.accessToken);
+      window.localStorage.setItem("nickname", data.nickname);
+      window.localStorage.setItem("avatar", data.avatar);
+      window.localStorage.setItem("userId", data.userId);
+      dispatch(setLogin(window.localStorage.getItem("accessToken")));
+      dispatch(setAvatar(window.localStorage.getItem("avatar")));
+      dispatch(setNick(window.localStorage.getItem("nickname")));
+      dispatch(setUserId(window.localStorage.getItem("userId")));
+    } catch (error) {
+      // console.log(e.response.data);
+      alert(error.response.data.message);
+      setId("");
+      setPw("");
+    }
+  };
+
+  const handleCreateAccount = async () => {
+    try {
+      const { data } = await api.post("/register", {
+        id: id,
+        password: pw,
+        nickname: nickname,
+      });
+      setId("");
+      setPw("");
+      setNickname("");
+      setIsLogin(true);
+    } catch (e) {
+      console.log(e.response.data);
+      alert(e.response.data.message);
+      setId("");
+      setPw("");
+      setNickname("");
+    }
+  };
+
+  const onSubmitHandler = (e) => {
     e.preventDefault();
     // 로그인에 임시로 true 값 payload로 보내기
-    e.target.textContent == "Log in"
-      ? dispatch(setLogin(true))
-      : setIsLogin(true);
+    isLogin
+      ? // dispatch(setLogin(true))
+        handleLogin()
+      : handleCreateAccount();
   };
 
   // 로그인 <-> 회원가입 토글 함수
@@ -33,7 +88,7 @@ function Login() {
   };
   return (
     <Container>
-      <LoginBox>
+      <LoginBox onSubmit={onSubmitHandler}>
         <p>{isLogin ? "Log in" : "Create Account"}</p>
         <LoginInput
           placeholder="ID (4~6 characters)"
@@ -58,9 +113,7 @@ function Login() {
             onChange={(e) => setNickname(e.target.value)}
           ></LoginInput>
         )}
-        <LoginButton onClick={onButtonClickHandler}>
-          {isLogin ? "Log in" : "Create Account"}
-        </LoginButton>
+        <LoginButton>{isLogin ? "Log in" : "Create Account"}</LoginButton>
         <CreateAccount>
           <span onClick={onClickHandler}>
             {isLogin ? "Create Account" : "Log in"}

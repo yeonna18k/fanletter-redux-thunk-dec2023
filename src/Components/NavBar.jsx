@@ -14,6 +14,7 @@ function NavBar() {
   };
   // 로그아웃 시 로그인 토큰 날리고 로그인 화면으로
   const onClickLogoutHandler = () => {
+    window.localStorage.clear();
     dispatch(setLogin(null));
     navigate("/login");
   };
@@ -32,7 +33,7 @@ function NavBar() {
 }
 const Container = styled.section`
   width: 100%;
-  height: 300px;
+  height: 10%;
   background-color: lightpink;
   display: flex;
   flex-direction: column;

@@ -5,6 +5,7 @@ import Signin from "pages/Signin";
 import Profile from "Components/Profile";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import Layout from "Components/Layout";
 
 export default function Router() {
   const auth = useSelector((state) => state.auth.accessToken);
@@ -24,11 +25,12 @@ export default function Router() {
           </>
         ) : (
           <>
-            <Route path="/" element={<Home />} />
-            <Route path="/detail/:id" element={<Detail />} />
-            <Route path="/profile" element={<Profile />} />
-
-            <Route path="*" element={<Navigate replace to="/" />} />
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/detail/:id" element={<Detail />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<Navigate replace to="/" />} />
+            </Route>
           </>
         )}
 
