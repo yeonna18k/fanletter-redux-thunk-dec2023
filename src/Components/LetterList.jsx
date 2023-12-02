@@ -1,15 +1,30 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import LetterCard from "./LetterCard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { __getLetters } from "redux/modules/lettersSlice";
 
 function LetterList() {
+  const dispatch = useDispatch();
+
   const activeMember = useSelector((state) => state.member);
-  const letters = useSelector((state) => state.letters);
+  const { isLoading, error, letters } = useSelector((state) => state.letters);
   const filteredLetters = letters.filter(
     (letter) => letter.writedTo === activeMember
   );
-  console.log(filteredLetters);
+
+  useEffect(() => {
+    dispatch(__getLetters());
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
+  // console.log(filteredLetters);
   return (
     <ListWrapper>
       {filteredLetters.length === 0 ? (
