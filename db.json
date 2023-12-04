@@ -173,6 +173,33 @@
       "writedTo": "Seulgi",
       "createdAt": "2023-12-03T16:31:31.968Z",
       "userId": "ytest1"
+    },
+    {
+      "id": "13d4cdc8-3515-4c64-b4d7-741585466cc6",
+      "nickname": "ytest2",
+      "content": "JOY!!! I LOVE YOU",
+      "avatar": null,
+      "writedTo": "Joy",
+      "createdAt": "2023-12-04T00:06:18.042Z",
+      "userId": "ytest2"
+    },
+    {
+      "id": "9841973f-de15-4d7b-9188-86c1b1762841",
+      "nickname": "nanayeon",
+      "content": "tkwlswha",
+      "avatar": null,
+      "writedTo": "Irene",
+      "createdAt": "2023-12-04T01:38:32.932Z",
+      "userId": "yeonnn"
+    },
+    {
+      "id": "c5bc07a4-77db-4886-8d11-2fedded36602",
+      "nickname": "nanayeon",
+      "content": "사진 바꾸고싶다\n",
+      "avatar": null,
+      "writedTo": "Irene",
+      "createdAt": "2023-12-04T01:38:39.684Z",
+      "userId": "yeonnn"
     }
   ]
 }
