@@ -16,6 +16,7 @@ const AvatarFigure = styled.figure`
         return css`
           width: 75px;
           height: 75px;
+          background-color: black;
         `;
       default:
         return css`
@@ -30,8 +31,6 @@ const AvatarFigure = styled.figure`
   & img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
   }
 `;
 export default Avatar;

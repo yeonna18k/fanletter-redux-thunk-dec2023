@@ -34,7 +34,7 @@ function NavBar() {
 const Container = styled.section`
   width: 100%;
   height: 10%;
-  background-color: lightpink;
+  background-color: #fdb69f;
   display: flex;
   flex-direction: column;
   align-items: center;

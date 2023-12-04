@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import Button from "./common/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { addLetter } from "redux/modules/lettersSlice";
+import { __postLetters, __getLetters } from "redux/modules/lettersSlice";
 
 function AddForm() {
   const letters = useSelector((state) => state.letters);
   const dispatch = useDispatch();
-  const [nickname, setNickname] = useState("");
+  const nickname = window.localStorage.getItem("nickname");
   const [comment, setComment] = useState("");
   const [member, setMember] = useState("Irene");
 
   const onAddLetter = (event) => {
     event.preventDefault();
-    if (!nickname || !comment) return alert("Put your nickname and comment");
+    if (!comment) return alert("Put your nickname and comment");
 
     const newLetter = {
       id: uuid(),
@@ -27,11 +27,10 @@ function AddForm() {
     };
 
     // setLetters((prev) => [newLetter, ...prev]);
-    dispatch(addLetter(newLetter));
-    setNickname("");
+    dispatch(__postLetters(newLetter));
     setComment("");
   };
-  console.log(letters);
+  // console.log(letters);
 
   return (
     <Form onSubmit={onAddLetter}>

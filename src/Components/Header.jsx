@@ -14,7 +14,7 @@ function Header() {
 const Container = styled.section`
   width: 100%;
   height: 300px;
-  background-color: lightpink;
+  background-color: #fdb69f;
   display: flex;
   flex-direction: column;
   align-items: center;

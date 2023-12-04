@@ -5,29 +5,28 @@ import Avatar from "Components/common/Avatar";
 import { getFormattedDate } from "util/date";
 import Button from "Components/common/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { editLetter, deleteLetter } from "redux/modules/lettersSlice";
+import { __deleteLetters, __patchLetters } from "redux/modules/lettersSlice";
 
 function Detail() {
   const dispatch = useDispatch();
-  const letters = useSelector((state) => state.letters);
+  const letters = useSelector((state) => state.letters.letters);
   const [isEditing, setIsEditing] = useState(false);
   const [editingText, SetEditingText] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
-  const { avatar, nickname, createdAt, writedTo, content } = letters.find(
-    (letter) => letter.id === id
-  );
+  const { avatar, nickname, createdAt, writedTo, content, userId } =
+    letters.find((letter) => letter.id === id);
 
   const onEditDone = () => {
     if (!editingText) return alert("There are no modifications");
-    dispatch(editLetter({ id, editingText }));
+    dispatch(__patchLetters({ id, content: editingText }));
     setIsEditing(false);
     SetEditingText("");
   };
   const onDeleteBtn = () => {
     const answer = window.confirm("Are you sure want to delete?");
     if (!answer) return;
-    dispatch(deleteLetter(id));
+    dispatch(__deleteLetters(id));
     // const newLetters = letters.filter((letter) => letter.id !== id);
     //     setLetters(newLetters);
     navigate("/");
@@ -63,10 +62,12 @@ function Detail() {
         ) : (
           <>
             <Content>{content}</Content>
-            <BtnWrapper>
-              <Button text="Modify" onClick={() => setIsEditing(true)} />
-              <Button text="Delete" onClick={onDeleteBtn} />
-            </BtnWrapper>
+            {userId == window.localStorage.getItem("userId") ? (
+              <BtnWrapper>
+                <Button text="Modify" onClick={() => setIsEditing(true)} />
+                <Button text="Delete" onClick={onDeleteBtn} />
+              </BtnWrapper>
+            ) : null}
           </>
         )}
       </DetailWrapper>
@@ -83,7 +84,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const HomeBtn = styled.button`
+const HomeBtn = styled.div`
   background-color: black;
   position: absolute;
   top: 20px;
@@ -132,7 +133,7 @@ const ToMember = styled.span`
 const Content = styled.p`
   font-size: 24px;
   line-height: 30px;
-  padding: 12px;
+  padding: 24px;
   background-color: #8d8c8c;
   border-radius: 12px;
   height: 220px;

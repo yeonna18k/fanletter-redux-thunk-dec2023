@@ -14,7 +14,7 @@ export default function Router() {
       <Navigate to="/login"></Navigate>;
     }
   }, []);
-  console.log(auth);
+  // console.log(auth);
   return (
     <BrowserRouter>
       <Routes>

@@ -27,8 +27,16 @@ function Login() {
 
   const dispatch = useDispatch();
 
+  const getLocalToken = window.localStorage.getItem("accessToken");
+  const getLocalAvatar = window.localStorage.getItem("avatar");
+  const getLocalNickname = window.localStorage.getItem("nickname");
+  const getLocalUserId = window.localStorage.getItem("userId");
+
   useEffect(() => {
-    dispatch(setLogin(window.localStorage.getItem("accessToken")));
+    dispatch(setLogin(getLocalToken));
+    dispatch(setAvatar(getLocalAvatar));
+    dispatch(setNick(getLocalNickname));
+    dispatch(setUserId(getLocalUserId));
   }, []);
 
   const handleLogin = async () => {
@@ -37,14 +45,17 @@ function Login() {
         id: id,
         password: pw,
       });
+
+      // authSlice에 accessToken, nickname, avatar, userId 보내기
+      dispatch(setLogin(data.accessToken));
+      dispatch(setAvatar(data.avatar));
+      dispatch(setNick(data.nickname));
+      dispatch(setUserId(data.userId));
+      // 로컬스토리지에 accessToken, nickname, avatar, userId 저장하기
       window.localStorage.setItem("accessToken", data.accessToken);
-      window.localStorage.setItem("nickname", data.nickname);
       window.localStorage.setItem("avatar", data.avatar);
+      window.localStorage.setItem("nickname", data.nickname);
       window.localStorage.setItem("userId", data.userId);
-      dispatch(setLogin(window.localStorage.getItem("accessToken")));
-      dispatch(setAvatar(window.localStorage.getItem("avatar")));
-      dispatch(setNick(window.localStorage.getItem("nickname")));
-      dispatch(setUserId(window.localStorage.getItem("userId")));
     } catch (error) {
       // console.log(e.response.data);
       alert(error.response.data.message);
@@ -93,14 +104,14 @@ function Login() {
         <LoginInput
           placeholder="ID (4~6 characters)"
           minLength="4"
-          maxlength="6"
+          maxLength="6"
           value={id}
           onChange={(e) => setId(e.target.value)}
         ></LoginInput>
         <LoginInput
           placeholder="PW (4~15 characters)"
           minLength="4"
-          maxlength="15"
+          maxLength="15"
           value={pw}
           onChange={(e) => setPw(e.target.value)}
         ></LoginInput>
